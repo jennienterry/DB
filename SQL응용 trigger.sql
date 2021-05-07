@@ -1,0 +1,17 @@
+DELETE FROM t_customer
+WHERE cus_no=5;
+
+DROP TRIGGER if EXISTS trg_DEL_CUSTOMER;
+DELEMITER $$
+CREATE TRIGGER trg_DEL_CUSTOMER
+BEFORE DELETE ON t_customer
+FOR EACH ROW
+BEGIN
+	DELETE FROM t_order
+	WHERE cus_no = OLD.cus_no;
+END $$
+DELIMITER ;
+
+
+SELECT * FROM t_customer;
+SELECT * FROM t_order;
